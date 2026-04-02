@@ -1,22 +1,56 @@
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
-*.pyc
-.sfdx/
-db.sqlite3
-staticfiles/
-.DS_Store
+*.py[cod]
+*.pyo
+*.pyd
+*.so
 
-# Virtual environments
+# ── Django ────────────────────────────────────────────────────────────────────
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
 venv/
 .venv/
 .venv_local/
+env/
+ENV/
 
-# Environment variable files (contain secrets – never commit these)
+# ── Environment & secrets (NEVER commit real values) ─────────────────────────
 .env
 *.env
+!.env.example
 
-# Elastic Beanstalk Files
+# ── Testing & coverage ───────────────────────────────────────────────────────
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.tox/
+
+# ── Build & deployment artefacts ─────────────────────────────────────────────
+deploy.zip
+dist/
+build/
+*.egg-info/
+
+# ── AWS Elastic Beanstalk ─────────────────────────────────────────────────────
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 *.pem
 *.txteb
+
+# ── OS & editor junk ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.orig
+
+# ── Salesforce (SFDX) – included for completeness ────────────────────────────
+.sfdx/
+.sf/
