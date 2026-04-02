@@ -25,15 +25,23 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key-for-local-dev-only')
+# SECURITY: SECRET_KEY must be set via environment variable.
+# Copy .env.example to .env and generate a key with:
+#   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    raise RuntimeError(
+        'SECRET_KEY not set. Copy .env.example to .env and set SECRET_KEY before running.'
+    )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG ='false'
+# SECURITY WARNING: never run with DEBUG=True in production.
+# Set DEBUG=True in .env for local development only.
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = [".elasticbeanstalk.com",
-                 "localhost",
-                 "127.0.0.1",
-                 ]
+# Comma-separated list of allowed hosts (set via environment variable)
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS', 'localhost,127.0.0.1,.elasticbeanstalk.com'
+).split(',')
 
 
 # Application definition
@@ -127,7 +135,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
